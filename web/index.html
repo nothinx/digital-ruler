@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Digital Ruler</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="bg-grid"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark">📏</span>
+      <h1>Digital <span>Ruler</span></h1>
+    </div>
+    <div class="broker-status" id="brokerStatus" title="Status koneksi broker">
+      <span class="led"></span><span class="label">Menyambung…</span>
+    </div>
+  </header>
+
+  <main class="container">
+    <!-- Pemilih alat -->
+    <section class="device-picker">
+      <label for="deviceSelect">Pilih Alat</label>
+      <div class="picker-row">
+        <select id="deviceSelect"></select>
+        <div class="device-online" id="deviceOnline">
+          <span class="led"></span><span class="label">—</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Panel pengukuran -->
+    <section class="meter">
+      <div class="readout">
+        <span class="value" id="distVal">—</span>
+        <span class="unit" id="distUnit">cm</span>
+      </div>
+
+      <div class="ruler">
+        <div class="ruler-track">
+          <div class="ruler-fill" id="rulerFill"></div>
+          <div class="ruler-marker" id="rulerMarker"><span></span></div>
+        </div>
+        <div class="ruler-scale" id="rulerScale"></div>
+      </div>
+
+      <p class="hint" id="hint">Tekan &amp; tahan tombol <b>S1</b> pada alat untuk mengukur.</p>
+    </section>
+
+    <!-- Statistik sesi -->
+    <section class="stats">
+      <div class="stat">
+        <span class="stat-label">Terakhir</span>
+        <span class="stat-val" id="statLast">—</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Minimum</span>
+        <span class="stat-val" id="statMin">—</span>
+      </div>
+      <div class="stat">
+        <span class="stat-label">Maksimum</span>
+        <span class="stat-val" id="statMax">—</span>
+      </div>
+    </section>
+    <button id="resetBtn" class="reset-btn">Reset Min / Maks</button>
+  </main>
+
+  <footer class="foot">
+    <span>R2C Digital Ruler • MQTT lokal</span>
+  </footer>
+
+  <script src="mqtt.min.js"></script>
+  <script src="config.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
