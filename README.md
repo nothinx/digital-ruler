@@ -23,9 +23,12 @@ lewat **MQTT (broker lokal Mosquitto)**. Untuk **workshop 10 alat identik**.
 ## Struktur
 ```
 digital-ruler/
-├── firmware/ruler/
+├── firmware/ruler/             # board ESP32-C3
 │   ├── ruler.ino
 │   └── config.h            # << DEVICE_ID + IP broker + WiFi + pin
+├── firmware/ruler-esp32/       # board ESP32 DevKit biasa (pin beda)
+│   ├── ruler-esp32.ino
+│   └── config.h            # << pin: TRIG3 ECHO2 SDA21 SCL22
 ├── web/
 │   ├── index.html
 │   ├── style.css
@@ -49,12 +52,20 @@ digital-ruler/
 
 ➡️ Detail di **[docs/PANDUAN-SETUP.md](docs/PANDUAN-SETUP.md)**.
 
-## Pin (sesuai skematik EasyEDA)
-| Fungsi | Pin |  | Fungsi | Pin |
-|---|---|---|---|---|
-| Tombol S1 | 5 |  | TRIG | 4 |
-| OLED SDA | 6 |  | ECHO | 3 |
-| OLED SCL | 7 |  | OLED I2C | 0x3C |
+## Pin (per varian board)
+Pilih folder firmware sesuai board. Logika sketch identik, hanya pin yang beda.
+
+| Fungsi | ESP32-C3 (`firmware/ruler/`) | ESP32 DevKit (`firmware/ruler-esp32/`) |
+|---|---|---|
+| Tombol S1 | 5 | 5 |
+| HC-SR04 TRIG | 4 | 3 |
+| HC-SR04 ECHO | 3 | 2 |
+| OLED SDA | 6 | 21 |
+| OLED SCL | 7 | 22 |
+| OLED I2C addr | 0x3C | 0x3C |
+
+> ⚠️ Di ESP32 DevKit klasik, **GPIO 6–11 dipakai flash internal** — jangan dipakai;
+> karena itu I2C OLED pindah ke 21/22 (default I2C board tsb).
 
 ## Topic MQTT
 Awalan per alat: `<NS>/ruler-NN/`

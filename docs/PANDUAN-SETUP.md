@@ -36,31 +36,41 @@ Jalankan `mosquitto -c mosquitto.conf -v`. Izinkan port 1883 & 9001 di firewall.
 
 ## 2. Firmware ESP32
 
+> **Pilih folder sesuai board:**
+> - **ESP32-C3** → `firmware/ruler/` (sketch `ruler.ino`)
+> - **ESP32 DevKit biasa** → `firmware/ruler-esp32/` (sketch `ruler-esp32.ino`)
+>
+> Logika sketch identik; hanya pin di `config.h` yang beda (lihat 2.3).
+
 ### 2.1 Library (Arduino IDE → Manage Libraries)
 - **Adafruit GFX Library**
 - **Adafruit SSD1306**
 - **PubSubClient** (Nick O'Leary)
 
-### 2.2 Konfigurasi (`firmware/ruler/config.h`)
+### 2.2 Konfigurasi (`config.h` di folder firmware yang dipilih)
 ```c
 #define DEVICE_ID 1               // GANTI 1..10 untuk tiap alat
 #define MQTT_HOST "192.168.4.180" // IP broker lokal
 #define WIFI_SSID "R2C"
 #define WIFI_PASS "juarajuara"
 ```
-> Pin (S1=5, SDA=6, SCL=7, TRIG=4, ECHO=3), alamat OLED `0x3C`, dan `TOPIC_NS`
-> sudah terisi. WiFi hardcoded → langsung connect.
+> Alamat OLED `0x3C` dan `TOPIC_NS` sudah terisi. WiFi hardcoded → langsung
+> connect. Pin sudah sesuai board masing-masing (lihat tabel 2.3).
 
-### 2.3 Wiring (sesuai skematik EasyEDA)
-| Komponen | Pin ESP |
-|---|---|
-| Tombol S1 → GND | GPIO 5 |
-| OLED SDA / SCL | GPIO 6 / 7 |
-| HC-SR04 TRIG / ECHO | GPIO 4 / 3 |
-| OLED & HC-SR04 VCC/GND | 3V3/5V & GND |
+### 2.3 Wiring (per varian board)
+| Komponen | ESP32-C3 (`firmware/ruler/`) | ESP32 DevKit (`firmware/ruler-esp32/`) |
+|---|---|---|
+| Tombol S1 → GND | GPIO 5 | GPIO 5 |
+| HC-SR04 TRIG / ECHO | GPIO 4 / 3 | GPIO 3 / 2 |
+| OLED SDA / SCL | GPIO 6 / 7 | GPIO 21 / 22 |
+| OLED & HC-SR04 VCC/GND | 3V3/5V & GND | 3V3/5V & GND |
+
+> ⚠️ ESP32 DevKit klasik: **GPIO 6–11 dipakai flash internal**, jangan dipakai;
+> karena itu I2C OLED ada di 21/22 (default I2C board tersebut).
 
 ### 2.4 Flash
-1. Buka `firmware/ruler/ruler.ino` (`config.h` ikut otomatis).
+1. Buka sketch sesuai board: `firmware/ruler/ruler.ino` (C3) atau
+   `firmware/ruler-esp32/ruler-esp32.ino` (DevKit) — `config.h` ikut otomatis.
 2. Pilih **Board** ESP32 yang sesuai + **Port**, klik **Upload**.
 3. Serial Monitor (115200): muncul `[wifi] tersambung` lalu `[mqtt] tersambung`.
 4. OLED menampilkan "Tekan & tahan S1 untuk mengukur".

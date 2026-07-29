@@ -1,14 +1,14 @@
 // =====================================================================
 //  config.h  —  Digital Ruler: pengaturan per-alat & broker
-//  VARIAN BOARD: ESP32-C3. Untuk ESP32 DevKit biasa gunakan folder
-//  firmware/ruler-esp32/ (pin beda).
+//  VARIAN BOARD: ESP32 DevKit BIASA (klasik / WROOM-32).
+//  Untuk ESP32-C3 gunakan folder firmware/ruler/ (pin beda).
 //  Ganti nilai di bawah lalu flash. Hanya DEVICE_ID yang beda tiap unit.
 // =====================================================================
 #ifndef CONFIG_H
 #define CONFIG_H
 
 // --- Identitas alat: GANTI angka ini 1..10 untuk tiap unit ------------
-#define DEVICE_ID 10              // -> topic "<NS>/ruler-01/..."
+#define DEVICE_ID 1               // -> topic "<NS>/ruler-01/..."
 
 // --- Prefix topic UNIK (samakan dengan web/config.js) ----------------
 #define TOPIC_NS "r2c-rul-6e8cb4"
@@ -23,12 +23,14 @@
 #define WIFI_SSID "R2C"
 #define WIFI_PASS "juarajuara"
 
-// --- Pin sesuai skematik EasyEDA -------------------------------------
+// --- Pin untuk ESP32 DevKit BIASA ------------------------------------
+//  Catatan: GPIO 6-11 di ESP32 klasik dipakai flash internal -> JANGAN
+//  dipakai. I2C default board ini SDA=21, SCL=22.
 #define BUTTON_PIN 5              // S1 (INPUT_PULLUP, tekan = LOW)
-#define SDA_PIN    6              // OLED SDA
-#define SCL_PIN    7              // OLED SCL
-#define TRIG_PIN   4              // HC-SR04 TRIG
-#define ECHO_PIN   3              // HC-SR04 ECHO
+#define SDA_PIN    21             // OLED SDA (I2C default ESP32)
+#define SCL_PIN    22             // OLED SCL (I2C default ESP32)
+#define TRIG_PIN   3              // HC-SR04 TRIG
+#define ECHO_PIN   2              // HC-SR04 ECHO
 
 // --- OLED SSD1306 -----------------------------------------------------
 #define SCREEN_WIDTH  128
